@@ -3,6 +3,7 @@ package com.iuc.cerrahpasa.onlineexamplatform.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -13,6 +14,7 @@ import com.iuc.cerrahpasa.onlineexamplatform.data.payloads.response.StudentCreat
 import com.iuc.cerrahpasa.onlineexamplatform.service.StudentService;
 
 @RestController
+@CrossOrigin(origins = "http://localhost:3000")
 @RequestMapping("/student")
 public class StudentController {
 
@@ -25,4 +27,5 @@ public class StudentController {
 		Boolean success = studentService.createStudent(studentRequest);
 		return new ResponseEntity<>(StudentCreationResponse.builder().success(success).build(), HttpStatus.OK);
 	}
+
 }
