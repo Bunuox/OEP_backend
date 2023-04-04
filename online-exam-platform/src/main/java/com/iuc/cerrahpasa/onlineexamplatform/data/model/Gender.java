@@ -1,5 +1,5 @@
 package com.iuc.cerrahpasa.onlineexamplatform.data.model;
 
 public enum Gender {
-	MALE, GENDER
+	MALE, FEMALE, UNSPECIFIED
 }
