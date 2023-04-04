@@ -1,10 +1,13 @@
 package com.iuc.cerrahpasa.onlineexamplatform.service;
 
-import org.springframework.stereotype.Component;
+import com.iuc.cerrahpasa.onlineexamplatform.data.payloads.request.StudentFindRequest;
+import org.springframework.stereotype.Service;
 
-import com.iuc.cerrahpasa.onlineexamplatform.data.payloads.request.StudentRequest;
+import com.iuc.cerrahpasa.onlineexamplatform.data.payloads.request.StudentCreationRequest;
 
-@Component
+@Service
 public interface StudentService {
-	Boolean createStudent(StudentRequest studentRequest);
+	Boolean createStudent(StudentCreationRequest studentRequest);
+
+//	Long findStudent(StudentFindRequest studentFindRequest);
 }
