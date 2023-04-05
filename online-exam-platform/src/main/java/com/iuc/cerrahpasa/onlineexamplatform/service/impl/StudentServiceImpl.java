@@ -41,12 +41,13 @@ public class StudentServiceImpl implements StudentService{
 		return Boolean.TRUE;
 	}
 
-//	@Override
-//	public Long findStudent(StudentFindRequest studentFindRequest) {
-//		return studentRepository.findStudent(studentFindRequest.getEmail(), studentFindRequest.getPassword());
-//	}
-
 	private String generateRandomPassword() {
 		return " "; //TODO: buraya daha sonrabak.
+	}
+
+	@Override
+	public Student findStudent(StudentFindRequest studentFindRequest) {
+		
+		return studentRepository.findByEmailAndPassword(studentFindRequest.getEmail(), studentFindRequest.getPassword());
 	}
 }
