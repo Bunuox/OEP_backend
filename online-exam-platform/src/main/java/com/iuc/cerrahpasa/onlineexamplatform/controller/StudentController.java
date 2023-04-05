@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.iuc.cerrahpasa.onlineexamplatform.data.model.Student;
 import com.iuc.cerrahpasa.onlineexamplatform.data.payloads.request.StudentCreationRequest;
 import com.iuc.cerrahpasa.onlineexamplatform.data.payloads.response.StudentCreationResponse;
 import com.iuc.cerrahpasa.onlineexamplatform.service.EmailService;
@@ -36,7 +37,8 @@ public class StudentController {
 
 	@PostMapping("/findStudent")
 	public ResponseEntity<StudentFindResponse> findStudent(@RequestBody StudentFindRequest studentFindRequest){
-		return new ResponseEntity<>(StudentFindResponse.builder().studentId(1L).build(), HttpStatus.OK);
+		Student student = studentService.findStudent(studentFindRequest);
+		return new ResponseEntity<>(StudentFindResponse.builder().studentId(student.getStudentId()).build(), HttpStatus.OK);
 	}
 
 	@PostMapping("/sendEmail")

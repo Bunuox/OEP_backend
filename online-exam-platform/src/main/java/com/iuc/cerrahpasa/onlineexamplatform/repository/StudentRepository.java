@@ -8,5 +8,6 @@ import com.iuc.cerrahpasa.onlineexamplatform.data.model.Student;
 
 @Repository
 public interface StudentRepository extends JpaRepository<Student, Long>{
-    //Long findStudent(String email, String password);
+
+	Student findByEmailAndPassword(String email, String password);
 }
