@@ -10,7 +10,7 @@ import com.iuc.cerrahpasa.onlineexamplatform.data.model.Gender;
 import lombok.Data;
 
 @Data
-public class StudentRequest {
+public class StudentCreationRequest {
 
 	@NotBlank
 	@NotNull
@@ -35,12 +35,4 @@ public class StudentRequest {
 	@NotBlank
 	@NotNull
 	private LocalDate dateOfBirth;
-
-	@NotBlank
-	@NotNull
-	private Boolean isActive;
-
-	@NotBlank
-	@NotNull
-	private String password;
 }
