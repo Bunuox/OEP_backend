@@ -1,7 +1,6 @@
 package com.iuc.cerrahpasa.onlineexamplatform.service.impl;
 
 import com.iuc.cerrahpasa.onlineexamplatform.data.payloads.request.StudentFindRequest;
-import com.iuc.cerrahpasa.onlineexamplatform.data.payloads.response.StudentFindResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -48,6 +47,6 @@ public class StudentServiceImpl implements StudentService{
 	@Override
 	public Student findStudent(StudentFindRequest studentFindRequest) {
 		
-		return studentRepository.findByEmailAndPassword(studentFindRequest.getEmail(), studentFindRequest.getPassword());
+		return studentRepository.findByEmail(studentFindRequest.getEmail());
 	}
 }
