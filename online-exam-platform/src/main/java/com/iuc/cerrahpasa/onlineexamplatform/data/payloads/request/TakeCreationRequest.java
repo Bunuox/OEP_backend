@@ -6,9 +6,20 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
 @Data
-public class CourseCreationRequest {
+public class TakeCreationRequest {
 
     @NotNull
     @NotBlank
-    private String description;
+    private Long courseId;
+
+    @NotNull
+    @NotBlank
+    private Long studentId;
+
+    @NotNull
+    @NotBlank
+    private Long instructorId;
+
+    private Long grade;
+    
 }
