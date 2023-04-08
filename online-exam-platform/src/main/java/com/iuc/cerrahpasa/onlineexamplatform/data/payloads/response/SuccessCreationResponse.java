@@ -5,6 +5,6 @@ import lombok.Data;
 
 @Data
 @Builder
-public class StudentCreationResponse {
-	private Boolean success;
+public class SuccessCreationResponse {
+    private Boolean success;
 }

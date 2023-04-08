@@ -2,9 +2,9 @@ package com.iuc.cerrahpasa.onlineexamplatform.controller;
 
 import com.iuc.cerrahpasa.onlineexamplatform.data.model.Course;
 import com.iuc.cerrahpasa.onlineexamplatform.data.payloads.request.CourseCreationRequest;
-import com.iuc.cerrahpasa.onlineexamplatform.data.payloads.response.CourseCreationResponse;
 import com.iuc.cerrahpasa.onlineexamplatform.data.payloads.response.CourseFindResponse;
 import com.iuc.cerrahpasa.onlineexamplatform.data.payloads.request.CourseFindRequest;
+import com.iuc.cerrahpasa.onlineexamplatform.data.payloads.response.SuccessCreationResponse;
 import com.iuc.cerrahpasa.onlineexamplatform.service.CourseService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -20,9 +20,9 @@ class CourseController {
     CourseService courseService;
 
     @PostMapping("/createCourse")
-    public ResponseEntity<CourseCreationResponse> createCourse(@RequestBody CourseCreationRequest courseCreationRequest){
+    public ResponseEntity<SuccessCreationResponse> createCourse(@RequestBody CourseCreationRequest courseCreationRequest){
         Boolean success = courseService.createCourse(courseCreationRequest);
-        return new ResponseEntity<>(CourseCreationResponse.builder().success(success).build(), HttpStatus.OK);
+        return new ResponseEntity<>(SuccessCreationResponse.builder().success(success).build(), HttpStatus.OK);
     }
 
     @PostMapping("/findCourse")
