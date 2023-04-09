@@ -3,8 +3,8 @@ package com.iuc.cerrahpasa.onlineexamplatform.controller;
 import com.iuc.cerrahpasa.onlineexamplatform.data.model.Instructor;
 import com.iuc.cerrahpasa.onlineexamplatform.data.payloads.request.InstructorCreationRequest;
 import com.iuc.cerrahpasa.onlineexamplatform.data.payloads.request.InstructorFindRequest;
-import com.iuc.cerrahpasa.onlineexamplatform.data.payloads.response.InstructorCreationResponse;
 import com.iuc.cerrahpasa.onlineexamplatform.data.payloads.response.InstructorFindResponse;
+import com.iuc.cerrahpasa.onlineexamplatform.data.payloads.response.SuccessCreationResponse;
 import com.iuc.cerrahpasa.onlineexamplatform.service.InstructorService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -20,9 +20,9 @@ public class InstructorController {
     private InstructorService instructorService;
 
     @PostMapping("/createInstructor")
-    public ResponseEntity<InstructorCreationResponse> createInstructor(@RequestBody InstructorCreationRequest instructorCreationRequest){
+    public ResponseEntity<SuccessCreationResponse> createInstructor(@RequestBody InstructorCreationRequest instructorCreationRequest){
         Boolean success = instructorService.createInstructor(instructorCreationRequest);
-        return new ResponseEntity<>(InstructorCreationResponse.builder().success(success).build(), HttpStatus.OK);
+        return new ResponseEntity<>(SuccessCreationResponse.builder().success(success).build(), HttpStatus.OK);
     }
 
     @PostMapping("/findInstructor")
