@@ -18,6 +18,9 @@ public class Course {
     @Column(name="COURSE_ID")
     private Long courseId;
 
+    @Column(name="COURSE_NAME")
+    private String courseName;
+
     @Column(name="DESCRIPTION")
     private String description;
 

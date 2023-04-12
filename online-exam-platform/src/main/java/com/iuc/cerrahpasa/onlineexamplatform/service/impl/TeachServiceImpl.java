@@ -2,6 +2,7 @@ package com.iuc.cerrahpasa.onlineexamplatform.service.impl;
 
 import com.iuc.cerrahpasa.onlineexamplatform.data.model.Teach;
 import com.iuc.cerrahpasa.onlineexamplatform.data.payloads.request.TeachCreationRequest;
+import com.iuc.cerrahpasa.onlineexamplatform.data.payloads.request.TeachFindRequest;
 import com.iuc.cerrahpasa.onlineexamplatform.repository.TeachRepository;
 import com.iuc.cerrahpasa.onlineexamplatform.service.TeachService;
 import lombok.extern.slf4j.Slf4j;
@@ -30,5 +31,10 @@ public class TeachServiceImpl implements TeachService {
             return Boolean.FALSE;
         }
         return Boolean.TRUE;
+    }
+
+    @Override
+    public Teach[] findTeach(TeachFindRequest teachFindRequest) {
+        return teachRepository.findAllByInstructorId(teachFindRequest.getInstructorId());
     }
 }

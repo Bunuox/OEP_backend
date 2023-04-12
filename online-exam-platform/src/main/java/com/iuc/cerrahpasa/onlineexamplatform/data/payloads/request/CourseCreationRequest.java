@@ -10,5 +10,9 @@ public class CourseCreationRequest {
 
     @NotNull
     @NotBlank
+    private String courseName;
+
+    @NotNull
+    @NotBlank
     private String description;
 }
