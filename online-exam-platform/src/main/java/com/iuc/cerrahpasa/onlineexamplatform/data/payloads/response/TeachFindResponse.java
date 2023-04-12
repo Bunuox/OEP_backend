@@ -5,7 +5,7 @@ import lombok.Data;
 
 @Data
 @Builder
-public class InstructorFindResponse {
+public class TeachFindResponse {
     private Long instructorId;
-    private String email;
+    private Long courseId;
 }

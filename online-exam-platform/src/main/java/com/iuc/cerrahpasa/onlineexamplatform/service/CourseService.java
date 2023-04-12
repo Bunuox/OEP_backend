@@ -7,6 +7,6 @@ import org.springframework.stereotype.Service;
 
 @Service
 public interface CourseService {
-    Boolean createCourse(CourseCreationRequest courseCreationRequest);
+    Course createCourse(CourseCreationRequest courseCreationRequest);
     Course findCourse(CourseFindRequest courseFindRequest);
 }

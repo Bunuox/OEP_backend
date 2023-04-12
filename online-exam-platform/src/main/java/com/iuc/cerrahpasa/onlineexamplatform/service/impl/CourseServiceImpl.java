@@ -16,8 +16,9 @@ public class CourseServiceImpl implements CourseService {
     @Autowired
     private CourseRepository courseRepository;
     @Override
-    public Boolean createCourse(CourseCreationRequest courseCreationRequest) {
+    public Course createCourse(CourseCreationRequest courseCreationRequest) {
         Course course = Course.builder()
+                .courseName(courseCreationRequest.getCourseName())
                 .description(courseCreationRequest.getDescription())
                 .isActive(false).build();
         try {
@@ -25,13 +26,13 @@ public class CourseServiceImpl implements CourseService {
             log.info("Course successfully created");
         } catch (Exception e) {
             log.info("course could not created due to: " + e.getLocalizedMessage());
-            return Boolean.FALSE;
+            return course;
         }
-        return Boolean.TRUE;
+        return course;
     }
 
     @Override
     public Course findCourse(CourseFindRequest courseFindRequest) {
-        return courseRepository.findByDescription(courseFindRequest.getDescription());
+        return courseRepository.findByCourseId(courseFindRequest.getCourseId());
     }
 }
