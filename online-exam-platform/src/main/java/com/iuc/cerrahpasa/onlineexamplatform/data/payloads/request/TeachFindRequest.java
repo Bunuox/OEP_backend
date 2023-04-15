@@ -5,4 +5,5 @@ import lombok.Data;
 @Data
 public class TeachFindRequest {
     private Long instructorId;
+    private Long courseId;
 }

@@ -2,6 +2,7 @@ package com.iuc.cerrahpasa.onlineexamplatform.service.impl;
 
 import com.iuc.cerrahpasa.onlineexamplatform.data.model.Take;
 import com.iuc.cerrahpasa.onlineexamplatform.data.payloads.request.TakeCreationRequest;
+import com.iuc.cerrahpasa.onlineexamplatform.data.payloads.request.TakeFindRequest;
 import com.iuc.cerrahpasa.onlineexamplatform.repository.TakeRepository;
 import com.iuc.cerrahpasa.onlineexamplatform.service.TakeService;
 import lombok.extern.slf4j.Slf4j;
@@ -31,5 +32,10 @@ public class TakeServiceImpl implements TakeService {
             return Boolean.FALSE;
         }
         return Boolean.TRUE;
+    }
+
+    @Override
+    public Take[] findTake(TakeFindRequest takeFindRequest) {
+        return takeRepository.findAllByStudentId(takeFindRequest.getStudentId());
     }
 }

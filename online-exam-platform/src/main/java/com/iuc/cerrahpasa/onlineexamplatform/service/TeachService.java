@@ -10,4 +10,5 @@ public interface TeachService {
     Boolean createTeach(TeachCreationRequest teachCreationRequest);
 
     Teach[] findTeach(TeachFindRequest teachFindRequest);
+
 }

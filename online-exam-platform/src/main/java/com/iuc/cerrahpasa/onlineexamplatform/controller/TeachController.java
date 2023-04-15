@@ -29,11 +29,11 @@ public class TeachController {
     }
 
     @PostMapping("/findTeach")
-    public ResponseEntity<List> findTeach(@RequestBody TeachFindRequest teachFindRequest){
+    public ResponseEntity<List> findTeach(@RequestBody TeachFindRequest teachFindRequest) {
         Teach[] teach = teachService.findTeach(teachFindRequest);
         List<TeachFindResponse> responses = new ArrayList<>();
 
-        for(Teach t: teach){
+        for (Teach t : teach) {
             responses.add(TeachFindResponse.builder().courseId(t.getCourseId()).instructorId(t.getInstructorId()).build());
         }
 
