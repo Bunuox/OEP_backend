@@ -4,5 +4,5 @@ import com.iuc.cerrahpasa.onlineexamplatform.data.model.Course;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface CourseRepository extends JpaRepository<Course, Long> {
-    Course findByDescription(String description);
+    Course findByCourseId(Long courseId);
 }

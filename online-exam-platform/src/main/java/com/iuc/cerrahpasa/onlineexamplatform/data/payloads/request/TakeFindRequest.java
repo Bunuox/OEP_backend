@@ -6,16 +6,9 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
 @Data
-public class TakeCreationRequest {
-
-    @NotNull
-    @NotBlank
-    private Long courseId;
+public class TakeFindRequest {
 
     @NotNull
     @NotBlank
     private Long studentId;
-
-    private Long grade;
-    
 }

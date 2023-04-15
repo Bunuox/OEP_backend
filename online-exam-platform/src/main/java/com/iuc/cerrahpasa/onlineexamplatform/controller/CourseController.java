@@ -2,9 +2,8 @@ package com.iuc.cerrahpasa.onlineexamplatform.controller;
 
 import com.iuc.cerrahpasa.onlineexamplatform.data.model.Course;
 import com.iuc.cerrahpasa.onlineexamplatform.data.payloads.request.CourseCreationRequest;
-import com.iuc.cerrahpasa.onlineexamplatform.data.payloads.response.CourseFindResponse;
+import com.iuc.cerrahpasa.onlineexamplatform.data.payloads.response.CourseCreationResponse;
 import com.iuc.cerrahpasa.onlineexamplatform.data.payloads.request.CourseFindRequest;
-import com.iuc.cerrahpasa.onlineexamplatform.data.payloads.response.SuccessCreationResponse;
 import com.iuc.cerrahpasa.onlineexamplatform.service.CourseService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -20,14 +19,14 @@ class CourseController {
     CourseService courseService;
 
     @PostMapping("/createCourse")
-    public ResponseEntity<SuccessCreationResponse> createCourse(@RequestBody CourseCreationRequest courseCreationRequest){
-        Boolean success = courseService.createCourse(courseCreationRequest);
-        return new ResponseEntity<>(SuccessCreationResponse.builder().success(success).build(), HttpStatus.OK);
+    public ResponseEntity<CourseCreationResponse> createCourse(@RequestBody CourseCreationRequest courseCreationRequest){
+        Course createdCourse = courseService.createCourse(courseCreationRequest);
+        return new ResponseEntity<>(CourseCreationResponse.builder().courseId(createdCourse.getCourseId()).build(), HttpStatus.OK);
     }
 
     @PostMapping("/findCourse")
-    public ResponseEntity<CourseFindResponse> findCourse(@RequestBody CourseFindRequest courseFindRequest){
+    public ResponseEntity<Course> findCourse(@RequestBody CourseFindRequest courseFindRequest){
         Course course = courseService.findCourse(courseFindRequest);
-        return new ResponseEntity<>(CourseFindResponse.builder().courseId(course.getCourseId()).build(), HttpStatus.OK);
+        return new ResponseEntity<>(course, HttpStatus.OK);
     }
 }

@@ -1,15 +1,24 @@
 package com.iuc.cerrahpasa.onlineexamplatform.controller;
 
+import com.iuc.cerrahpasa.onlineexamplatform.data.model.Course;
 import com.iuc.cerrahpasa.onlineexamplatform.data.model.Instructor;
+import com.iuc.cerrahpasa.onlineexamplatform.data.model.Teach;
+import com.iuc.cerrahpasa.onlineexamplatform.data.payloads.request.CourseFindRequest;
 import com.iuc.cerrahpasa.onlineexamplatform.data.payloads.request.InstructorCreationRequest;
 import com.iuc.cerrahpasa.onlineexamplatform.data.payloads.request.InstructorFindRequest;
+import com.iuc.cerrahpasa.onlineexamplatform.data.payloads.request.TeachFindRequest;
 import com.iuc.cerrahpasa.onlineexamplatform.data.payloads.response.InstructorFindResponse;
 import com.iuc.cerrahpasa.onlineexamplatform.data.payloads.response.SuccessCreationResponse;
+import com.iuc.cerrahpasa.onlineexamplatform.service.CourseService;
 import com.iuc.cerrahpasa.onlineexamplatform.service.InstructorService;
+import com.iuc.cerrahpasa.onlineexamplatform.service.TeachService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @RestController
 @CrossOrigin(origins = "http://localhost:3000")
@@ -18,6 +27,12 @@ public class InstructorController {
 
     @Autowired
     private InstructorService instructorService;
+
+    @Autowired
+    private TeachService teachService;
+
+    @Autowired
+    private CourseService courseService;
 
     @PostMapping("/createInstructor")
     public ResponseEntity<SuccessCreationResponse> createInstructor(@RequestBody InstructorCreationRequest instructorCreationRequest){
@@ -28,6 +43,20 @@ public class InstructorController {
     @PostMapping("/findInstructor")
     public ResponseEntity<InstructorFindResponse> findInstructor(@RequestBody InstructorFindRequest instructorFindRequest){
         Instructor instructor = instructorService.findInstructor(instructorFindRequest);
-        return new ResponseEntity<>(InstructorFindResponse.builder().instructorId(instructor.getInstructorId()).build(), HttpStatus.OK);
+        return new ResponseEntity<>(InstructorFindResponse.builder()
+                .email(instructor.getEmail())
+                .instructorId(instructor.getInstructorId())
+                .build(), HttpStatus.OK);
+    }
+
+    @PostMapping("/instructorCourses")
+    public ResponseEntity<List> instructorCourses(@RequestBody TeachFindRequest teachFindRequest){
+        Teach[] teaches = teachService.findTeach(teachFindRequest);
+        List<Course> courses = new ArrayList<>();
+        for(Teach t: teaches) {
+            courses.add(courseService.findCourse(CourseFindRequest.builder().courseId(t.getCourseId()).build()));
+        }
+
+        return new ResponseEntity<>(courses, HttpStatus.OK);
     }
 }
