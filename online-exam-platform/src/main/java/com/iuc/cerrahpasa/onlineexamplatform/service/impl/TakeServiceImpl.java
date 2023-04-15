@@ -21,7 +21,6 @@ public class TakeServiceImpl implements TakeService {
         Take take = Take.builder()
                 .courseId(takeCreationRequest.getCourseId())
                 .studentId(takeCreationRequest.getStudentId())
-                .instructorId(takeCreationRequest.getInstructorId())
                 .isActive(false)
                 .build();
         try {

@@ -53,7 +53,7 @@ public class StudentController {
 	@PostMapping("/findStudent")
 	public ResponseEntity<StudentFindResponse> findStudent(@RequestBody StudentFindRequest studentFindRequest){
 		Student student = studentService.findStudent(studentFindRequest);
-		return new ResponseEntity<>(StudentFindResponse.builder().studentId(student.getStudentId()).build(), HttpStatus.OK);
+		return new ResponseEntity<>(StudentFindResponse.builder().student(student).build(), HttpStatus.OK);
 	}
 
 	@PostMapping("/studentCourses")

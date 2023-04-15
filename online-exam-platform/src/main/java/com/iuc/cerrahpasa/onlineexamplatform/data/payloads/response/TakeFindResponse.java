@@ -7,5 +7,4 @@ import lombok.Data;
 @Builder
 public class TakeFindResponse {
     private Long courseId;
-    private Long instructorId;
 }
