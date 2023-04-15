@@ -34,7 +34,7 @@ public class TakeController {
         List<TakeFindResponse> responses = new ArrayList<>();
 
         for(Take t: takes){
-            responses.add(TakeFindResponse.builder().instructorId(t.getInstructorId()).courseId(t.getCourseId()).build());
+            responses.add(TakeFindResponse.builder().courseId(t.getCourseId()).build());
         }
 
         return new ResponseEntity<>(responses, HttpStatus.OK);

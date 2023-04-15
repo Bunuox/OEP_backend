@@ -16,10 +16,6 @@ public class TakeCreationRequest {
     @NotBlank
     private Long studentId;
 
-    @NotNull
-    @NotBlank
-    private Long instructorId;
-
     private Long grade;
     
 }

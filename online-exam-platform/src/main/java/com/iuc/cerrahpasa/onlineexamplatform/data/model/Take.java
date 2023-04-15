@@ -24,10 +24,6 @@ public class Take {
     @Column(name = "STUDENT_ID")
     private Long studentId;
 
-    @Id
-    @Column(name = "INSTRUCTOR_ID")
-    private Long instructorId;
-
     @Column(name = "GRADE")
     private Long grade;
 
