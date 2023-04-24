@@ -40,7 +40,11 @@ public class ExamServiceImp implements ExamService {
     }
 
     @Override
-    public Exam findExam(ExamFindRequest examFindRequest) {
+    public Exam[] findMultipleExams(ExamFindRequest examFindRequest) {
         return examRepository.findByCourseId(examFindRequest.getCourseId());
+    }
+
+    public Exam findExam(ExamFindRequest examFindRequest){
+        return examRepository.findByExamId(examFindRequest.getExamId());
     }
 }

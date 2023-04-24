@@ -15,4 +15,8 @@ public class CourseCreationRequest {
     @NotNull
     @NotBlank
     private String description;
+
+    @NotNull
+    @NotBlank
+    private String courseSemester;
 }
