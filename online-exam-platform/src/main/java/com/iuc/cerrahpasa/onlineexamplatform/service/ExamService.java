@@ -9,4 +9,6 @@ import org.springframework.stereotype.Service;
 public interface ExamService {
     Exam createExam(ExamCreationRequest examCreationRequest);
     Exam findExam(ExamFindRequest examFindRequest);
+
+    Exam[] findMultipleExams(ExamFindRequest examFindRequest);
 }

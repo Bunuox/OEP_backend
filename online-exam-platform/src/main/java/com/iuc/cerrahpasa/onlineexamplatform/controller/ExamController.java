@@ -31,4 +31,10 @@ public class ExamController {
         return new ResponseEntity<>(ExamFindResponse.builder().exam(exam).build(), HttpStatus.OK);
     }
 
+    @PostMapping("/findExamByCourseId")
+    public ResponseEntity<Exam[]> findExamByCourseId(@RequestBody ExamFindRequest examFindRequest){
+        Exam[] exams = examService.findMultipleExams(ExamFindRequest.builder().courseId(examFindRequest.getCourseId()).build());
+        return new ResponseEntity<>(exams, HttpStatus.OK);
+    }
+
 }

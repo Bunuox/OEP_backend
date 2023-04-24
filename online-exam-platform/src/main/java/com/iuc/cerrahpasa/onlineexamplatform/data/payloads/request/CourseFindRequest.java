@@ -16,5 +16,4 @@ public class CourseFindRequest {
     @NotNull
     @NotBlank
     private Long courseId;
-
 }

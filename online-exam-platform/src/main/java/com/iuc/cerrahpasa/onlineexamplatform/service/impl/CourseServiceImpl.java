@@ -20,6 +20,7 @@ public class CourseServiceImpl implements CourseService {
         Course course = Course.builder()
                 .courseName(courseCreationRequest.getCourseName())
                 .description(courseCreationRequest.getDescription())
+                .courseSemester(courseCreationRequest.getCourseSemester())
                 .isActive(false).build();
         try {
             courseRepository.save(course);

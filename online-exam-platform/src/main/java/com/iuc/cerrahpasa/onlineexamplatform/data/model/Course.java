@@ -26,4 +26,7 @@ public class Course {
 
     @Column(name = "IS_ACTIVE")
     private Boolean isActive;
+
+    @Column(name = "COURSE_SEMESTER")
+    private String courseSemester;
 }
