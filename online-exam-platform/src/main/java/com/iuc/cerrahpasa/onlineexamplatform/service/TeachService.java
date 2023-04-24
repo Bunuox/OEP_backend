@@ -11,4 +11,5 @@ public interface TeachService {
 
     Teach[] findTeach(TeachFindRequest teachFindRequest);
 
+    Teach findTeachByCourseId(TeachFindRequest teachFindRequest);
 }

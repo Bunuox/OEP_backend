@@ -40,4 +40,12 @@ public class TeachController {
         return new ResponseEntity<>(responses, HttpStatus.OK);
     }
 
+    @PostMapping("/findTeachByCourseId")
+    public ResponseEntity<TeachFindResponse> findTeachByCourseId(@RequestBody TeachFindRequest teachFindRequest){
+        Teach teach = teachService.findTeachByCourseId(teachFindRequest);
+        return new ResponseEntity<>(TeachFindResponse.builder()
+                                    .courseId(teach.getCourseId())
+                                    .instructorId(teach.getInstructorId()).build(), HttpStatus.OK);
+    }
+
 }

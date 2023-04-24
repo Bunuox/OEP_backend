@@ -5,4 +5,5 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface TeachRepository extends JpaRepository<Teach, Long> {
     Teach[] findAllByInstructorId(Long instructorId);
+    Teach findByCourseId(Long courseId);
 }
