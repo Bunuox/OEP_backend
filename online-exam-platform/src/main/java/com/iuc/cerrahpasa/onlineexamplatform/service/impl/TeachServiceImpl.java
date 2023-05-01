@@ -37,4 +37,8 @@ public class TeachServiceImpl implements TeachService {
     public Teach[] findTeach(TeachFindRequest teachFindRequest) {
         return teachRepository.findAllByInstructorId(teachFindRequest.getInstructorId());
     }
+
+    public Teach findTeachByCourseId(TeachFindRequest teachFindRequest){
+        return teachRepository.findByCourseId(teachFindRequest.getCourseId());
+    }
 }

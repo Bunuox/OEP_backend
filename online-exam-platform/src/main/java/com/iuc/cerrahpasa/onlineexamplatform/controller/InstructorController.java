@@ -1,15 +1,14 @@
 package com.iuc.cerrahpasa.onlineexamplatform.controller;
 
 import com.iuc.cerrahpasa.onlineexamplatform.data.model.Course;
+import com.iuc.cerrahpasa.onlineexamplatform.data.model.Exam;
 import com.iuc.cerrahpasa.onlineexamplatform.data.model.Instructor;
 import com.iuc.cerrahpasa.onlineexamplatform.data.model.Teach;
-import com.iuc.cerrahpasa.onlineexamplatform.data.payloads.request.CourseFindRequest;
-import com.iuc.cerrahpasa.onlineexamplatform.data.payloads.request.InstructorCreationRequest;
-import com.iuc.cerrahpasa.onlineexamplatform.data.payloads.request.InstructorFindRequest;
-import com.iuc.cerrahpasa.onlineexamplatform.data.payloads.request.TeachFindRequest;
+import com.iuc.cerrahpasa.onlineexamplatform.data.payloads.request.*;
 import com.iuc.cerrahpasa.onlineexamplatform.data.payloads.response.InstructorFindResponse;
 import com.iuc.cerrahpasa.onlineexamplatform.data.payloads.response.SuccessCreationResponse;
 import com.iuc.cerrahpasa.onlineexamplatform.service.CourseService;
+import com.iuc.cerrahpasa.onlineexamplatform.service.ExamService;
 import com.iuc.cerrahpasa.onlineexamplatform.service.InstructorService;
 import com.iuc.cerrahpasa.onlineexamplatform.service.TeachService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,6 +17,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 @RestController
@@ -33,6 +33,9 @@ public class InstructorController {
 
     @Autowired
     private CourseService courseService;
+
+    @Autowired
+    private ExamService examService;
 
     @PostMapping("/createInstructor")
     public ResponseEntity<SuccessCreationResponse> createInstructor(@RequestBody InstructorCreationRequest instructorCreationRequest){
@@ -58,5 +61,18 @@ public class InstructorController {
         }
 
         return new ResponseEntity<>(courses, HttpStatus.OK);
+    }
+
+    @PostMapping("/instructorExams")
+    public ResponseEntity<List> instructorExams(@RequestBody TeachFindRequest teachFindRequest){
+        Teach[] teaches = teachService.findTeach(teachFindRequest);
+        List<Exam> exams = new ArrayList<>();
+
+        for(Teach t: teaches){
+            Exam[] courseExams = examService.findMultipleExams(ExamFindRequest.builder().courseId(t.getCourseId()).build());
+            exams.addAll(Arrays.asList(courseExams));
+        }
+
+        return new ResponseEntity<>(exams, HttpStatus.OK);
     }
 }
