@@ -2,6 +2,7 @@ package com.iuc.cerrahpasa.onlineexamplatform.controller;
 
 import com.iuc.cerrahpasa.onlineexamplatform.data.model.Question;
 import com.iuc.cerrahpasa.onlineexamplatform.data.payloads.request.QuestionCreationRequest;
+import com.iuc.cerrahpasa.onlineexamplatform.data.payloads.request.QuestionFindRequest;
 import com.iuc.cerrahpasa.onlineexamplatform.data.payloads.response.QuestionCreationResponse;
 import com.iuc.cerrahpasa.onlineexamplatform.service.QuestionService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,5 +25,11 @@ public class QuestionController {
                 .questionId(success.getQuestionId())
                 .examId(success.getExamId())
                 .build(), HttpStatus.OK);
+    }
+
+    @PostMapping("/findQuestionsByExamId")
+    public ResponseEntity<Question[]> findQuestionsByExamId(@RequestBody QuestionFindRequest questionFindRequest){
+        Question[] questions = questionService.findQuestionsByExamId(questionFindRequest);
+        return new ResponseEntity<>(questions, HttpStatus.OK);
     }
 }
