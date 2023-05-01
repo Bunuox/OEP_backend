@@ -2,6 +2,7 @@ package com.iuc.cerrahpasa.onlineexamplatform.service.impl;
 
 import com.iuc.cerrahpasa.onlineexamplatform.data.model.Question;
 import com.iuc.cerrahpasa.onlineexamplatform.data.payloads.request.QuestionCreationRequest;
+import com.iuc.cerrahpasa.onlineexamplatform.data.payloads.request.QuestionFindRequest;
 import com.iuc.cerrahpasa.onlineexamplatform.repository.QuestionRepository;
 import com.iuc.cerrahpasa.onlineexamplatform.service.QuestionService;
 import lombok.extern.slf4j.Slf4j;
@@ -32,5 +33,10 @@ public class QuestionServiceImpl implements QuestionService {
             return question;
         }
         return question;
+    }
+
+    @Override
+    public Question[] findQuestionsByExamId(QuestionFindRequest questionFindRequest) {
+        return questionRepository.findAllByExamId(questionFindRequest.getExamId());
     }
 }
