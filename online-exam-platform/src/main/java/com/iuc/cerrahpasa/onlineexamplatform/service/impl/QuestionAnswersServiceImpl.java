@@ -2,10 +2,13 @@ package com.iuc.cerrahpasa.onlineexamplatform.service.impl;
 
 import com.iuc.cerrahpasa.onlineexamplatform.data.model.QuestionAnswers;
 import com.iuc.cerrahpasa.onlineexamplatform.data.payloads.request.QuestionAnswersCreationRequest;
+import com.iuc.cerrahpasa.onlineexamplatform.data.payloads.request.QuestionAnswersFindRequest;
 import com.iuc.cerrahpasa.onlineexamplatform.repository.QuestionAnswersRepository;
 import com.iuc.cerrahpasa.onlineexamplatform.service.QuestionAnswersService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -32,5 +35,10 @@ public class QuestionAnswersServiceImpl implements QuestionAnswersService {
         }
 
         return questionAnswer;
+    }
+
+    @Override
+    public QuestionAnswers[] findQuestionAnswersByQuestionId(QuestionAnswersFindRequest questionAnswersFindRequest) {
+        return questionAnswersRepository.findAllByQuestionId(questionAnswersFindRequest.getQuestionId());
     }
 }
