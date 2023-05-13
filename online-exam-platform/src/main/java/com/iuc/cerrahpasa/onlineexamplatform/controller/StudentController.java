@@ -1,14 +1,12 @@
 package com.iuc.cerrahpasa.onlineexamplatform.controller;
 
 import com.iuc.cerrahpasa.onlineexamplatform.data.model.Course;
+import com.iuc.cerrahpasa.onlineexamplatform.data.model.Exam;
 import com.iuc.cerrahpasa.onlineexamplatform.data.model.Take;
-import com.iuc.cerrahpasa.onlineexamplatform.data.payloads.request.CourseFindRequest;
-import com.iuc.cerrahpasa.onlineexamplatform.data.payloads.request.StudentFindRequest;
-import com.iuc.cerrahpasa.onlineexamplatform.data.payloads.request.TakeFindRequest;
+import com.iuc.cerrahpasa.onlineexamplatform.data.payloads.request.*;
 import com.iuc.cerrahpasa.onlineexamplatform.data.payloads.response.StudentFindResponse;
 import com.iuc.cerrahpasa.onlineexamplatform.data.payloads.response.SuccessCreationResponse;
-import com.iuc.cerrahpasa.onlineexamplatform.service.CourseService;
-import com.iuc.cerrahpasa.onlineexamplatform.service.TakeService;
+import com.iuc.cerrahpasa.onlineexamplatform.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -19,11 +17,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.iuc.cerrahpasa.onlineexamplatform.data.model.Student;
-import com.iuc.cerrahpasa.onlineexamplatform.data.payloads.request.StudentCreationRequest;
-import com.iuc.cerrahpasa.onlineexamplatform.service.EmailService;
-import com.iuc.cerrahpasa.onlineexamplatform.service.StudentService;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 @RestController
@@ -42,6 +38,9 @@ public class StudentController {
 
 	@Autowired
 	private EmailService emailService;
+
+	@Autowired
+	private ExamService examService;
 
 	@PostMapping("/createStudent")
 	public ResponseEntity<SuccessCreationResponse> createStudent(@RequestBody StudentCreationRequest studentRequest) {
@@ -66,6 +65,18 @@ public class StudentController {
 		}
 
 		return new ResponseEntity<>(courses, HttpStatus.OK);
+	}
+
+	@PostMapping("/findStudentExams")
+	public ResponseEntity<List> studentExams(@RequestBody TakeFindRequest takeFindRequest){
+		Take[] takes = takeService.findTake(takeFindRequest);
+		List<Exam> exams = new ArrayList<>();
+
+		for(Take t: takes){
+			Exam[] courseExams = examService.findMultipleExams(ExamFindRequest.builder().courseId(t.getCourseId()).build());
+			exams.addAll(Arrays.asList(courseExams));
+		}
+		return new ResponseEntity<>(exams, HttpStatus.OK);
 	}
 
 	@PostMapping("/sendEmail")
