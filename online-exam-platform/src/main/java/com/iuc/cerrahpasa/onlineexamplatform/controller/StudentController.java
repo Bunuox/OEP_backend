@@ -1,16 +1,14 @@
 package com.iuc.cerrahpasa.onlineexamplatform.controller;
 
+import com.iuc.cerrahpasa.onlineexamplatform.data.model.Exam;
+import com.iuc.cerrahpasa.onlineexamplatform.data.payloads.request.*;
+import com.iuc.cerrahpasa.onlineexamplatform.service.*;
 import org.apache.commons.io.FileUtils;
 import com.iuc.cerrahpasa.onlineexamplatform.data.model.Course;
 import com.iuc.cerrahpasa.onlineexamplatform.data.model.Take;
-import com.iuc.cerrahpasa.onlineexamplatform.data.payloads.request.CourseFindRequest;
-import com.iuc.cerrahpasa.onlineexamplatform.data.payloads.request.StudentFindRequest;
-import com.iuc.cerrahpasa.onlineexamplatform.data.payloads.request.TakeFindRequest;
 import com.iuc.cerrahpasa.onlineexamplatform.data.payloads.response.FaceIdentificationResponse;
 import com.iuc.cerrahpasa.onlineexamplatform.data.payloads.response.StudentFindResponse;
 import com.iuc.cerrahpasa.onlineexamplatform.data.payloads.response.SuccessCreationResponse;
-import com.iuc.cerrahpasa.onlineexamplatform.service.CourseService;
-import com.iuc.cerrahpasa.onlineexamplatform.service.TakeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
@@ -18,9 +16,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import com.iuc.cerrahpasa.onlineexamplatform.data.model.Student;
-import com.iuc.cerrahpasa.onlineexamplatform.data.payloads.request.StudentCreationRequest;
-import com.iuc.cerrahpasa.onlineexamplatform.service.EmailService;
-import com.iuc.cerrahpasa.onlineexamplatform.service.StudentService;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.BufferedReader;
@@ -32,6 +27,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 @RestController
@@ -44,6 +40,9 @@ public class StudentController {
 
 	@Autowired
 	private CourseService courseService;
+
+	@Autowired
+	private ExamService examService;
 
 	@Autowired
 	private TakeService takeService;
@@ -76,6 +75,19 @@ public class StudentController {
 		Student student = studentService.findStudent(studentFindRequest);
 		return new ResponseEntity<>(StudentFindResponse.builder().student(student).build(), HttpStatus.OK);
 	}
+
+	@PostMapping("/findStudentExams")
+	public ResponseEntity<List> studentExams(@RequestBody TakeFindRequest takeFindRequest){
+		Take[] takes = takeService.findTake(takeFindRequest);
+		List<Exam> exams = new ArrayList<>();
+
+		for(Take t: takes){
+			Exam[] courseExams = examService.findMultipleExams(ExamFindRequest.builder().courseId(t.getCourseId()).build());
+			exams.addAll(Arrays.asList(courseExams));
+		}
+		return new ResponseEntity<>(exams, HttpStatus.OK);
+	}
+
 
 	@PostMapping("/studentCourses")
 	public ResponseEntity<List> studentCourses(@RequestBody TakeFindRequest takeFindRequest){

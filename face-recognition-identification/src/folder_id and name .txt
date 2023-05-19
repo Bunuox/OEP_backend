@@ -5,5 +5,6 @@
 5 -> nihat-pamukcu
 6 -> sirac-petmezciler
 7 -> yahya-boyali
-8 -> yilmaz-alperen
+8 -> bunyamin-kilicer
 9 -> yunus-kara
+10 -> yilmaz-alperen
