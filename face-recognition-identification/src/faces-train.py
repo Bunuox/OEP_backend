@@ -1,7 +1,6 @@
 import os
 import cv2
 import numpy as np
-import pickle
 
 ABS_FILE_PATH = os.path.abspath(__file__)
 BASE_DIR = os.path.dirname(ABS_FILE_PATH)

@@ -38,7 +38,7 @@ for root, dirs, files in os.walk(IMGS_PATH):
         
             label_id, confidence = face_recognizer.predict(cv2.resize(roi_gray, (500, 500)))
 
-            if confidence <=25 and confidence >=0:
+            if confidence <=35 and confidence >=0:
                 print(id, "TRUE")
             else:
                 print(id, "FALSE")
