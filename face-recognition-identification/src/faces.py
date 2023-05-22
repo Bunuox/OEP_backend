@@ -1,36 +1,38 @@
-import numpy as np
 import cv2
-import os #haarcascade algoritmasinin pathini vermek icin.
+import os
+
+print('-----DEBUG BASLADI ------')
+path_cascade = os.path.join('src', 'cascades', 'data', 'haarcascade_frontalface_default.xml')
+face_cascade = cv2.CascadeClassifier(path_cascade)
+
+face_recognizer = cv2.face.LBPHFaceRecognizer_create() 
 
 
-face_cascade = cv2.CascadeClassifier('src\\cascades\\data\\haarcascade_frontalface_default.xml') # frame'den frontal yüzü cikarmak icin egitilmis olan haarcascade modeli / machine learning algoritmalari ile egitildi.
-#kendi use-case'ine göre egitilmis hazir modellerden birini secebilirsin.
+ABS_PATH = os.path.abspath(__file__)
+DIR_PATH = os.path.dirname(ABS_PATH)
+IMGS_PATH = os.path.join(DIR_PATH, 'uploads') 
 
 
+for root, dirs, files in os.walk(IMGS_PATH):
+    for file in files:  #file name doesnt include path.
+        img_path = os.path.join(root, file)
 
-cap = cv2.VideoCapture(0) #varsayılan kamerayı secer
+        id = os.path.basename(root)
+        face_recognizer.read(os.path.join('src', 'models', 'face_trainner-' + id + '.yml'))
+        frame = cv2.imread(img_path)
+        gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
+        faces = face_cascade.detectMultiScale(gray, scaleFactor=1.15, minNeighbors=10)
 
-while(True):
-    #cap.read methodu sayesinde olusturdugumuz VideCapture nesnesi ile görüntü alırız ret- true ya da false olurken / frame ise alinan goruntunun numpy dizi karsigilidir.
-    #ret -> true demek goruntu basarili sekilde alabildi// false ise goruntu basarili bir sekilde alamadi anlamina gelir.
-    ret, frame = cap.read()
-    gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
+        for (x, y, w, h) in faces:
 
-    faces = face_cascade.detectMultiScale(gray, scaleFactor=1.05, minNeighbors=5)
+            roi_img = frame[y:y+h, x:x+w] 
+            roi_gray = gray[y:y+h, x:x+w]
+        
+            label_id, confidence = face_recognizer.predict(cv2.resize(roi_gray, (500, 500))) 
+            print(id, confidence)
 
-    for (x, y, w, h) in faces:
-        cv2.rectangle(frame, (x, y), (x+w, y+h), (0, 255, 0), 2)
+            if confidence <=25 and confidence >=0:
+                print('return true')#daha sonra sil.
     
-
-    #cv2.imshow('face-cam', frame) # image-show frame bir RGB renk uzayinda bir numpy dizisi
-    cv2.imshow('face-com', frame) # gray ise artik farklı bir renk uzayinda numpy dizisi
-    
-    if cv2.waitKey(20) & 0xFF == 27 : # bu kod bloguna geldigin 20 milisaniye tusa basacak mısın diye bekler /// 0xFF ise built-in bir python yapısı olup dusuk oncelikli 32 bite bakarak stdinputtan degeri asciiye cevirir 
-         ## 27 ise klavyede esc tusuna karsilik gelmektedir.
-        break
-
-cap.release()
-cv2.destroyAllWindows()
-print('FaceCamden goruntu alma islemi kullanici tarafindan durduruldu.')    
 
  

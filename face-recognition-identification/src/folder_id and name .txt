@@ -1,0 +1,10 @@
+1 -> asim-kaymak
+2 -> emin-can-ozge
+3 -> mert-yilmaz
+4 -> mertcan-topcu
+5 -> nihat-pamukcu
+6 -> sirac-petmezciler
+7 -> yahya-boyali
+8 -> bunyamin-kilicer
+9 -> yunus-kara
+10 -> yilmaz-alperen
