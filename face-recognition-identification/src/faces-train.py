@@ -17,7 +17,7 @@ for root, dirs, files in os.walk(IMGS_DIR):
     x_train = []
     dir_name = os.path.basename(root)
     for file in files:
-        if file.endswith('jpeg'):
+        if file.startswith('train') and file.endswith('jpeg'):
             #alacagimiz resmin 500, 500 pixsel olacagini assume ediyorum.
             img_path = os.path.join(root, file)
             img_gray = cv2.cvtColor(cv2.imread(img_path), cv2.COLOR_BGR2GRAY)
