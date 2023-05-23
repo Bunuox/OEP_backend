@@ -49,6 +49,10 @@ public class InstructorController {
         return new ResponseEntity<>(InstructorFindResponse.builder()
                 .email(instructor.getEmail())
                 .instructorId(instructor.getInstructorId())
+                .lastName(instructor.getLastName())
+                .firstName(instructor.getFirstName())
+                .dateOfBirth(instructor.getDateOfBirth())
+                .department(instructor.getDepartment())
                 .build(), HttpStatus.OK);
     }
 
