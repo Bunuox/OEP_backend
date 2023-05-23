@@ -1,8 +1,11 @@
 package com.iuc.cerrahpasa.onlineexamplatform.controller;
 
+import ch.qos.logback.core.net.SyslogOutputStream;
 import com.iuc.cerrahpasa.onlineexamplatform.data.model.Exam;
 import com.iuc.cerrahpasa.onlineexamplatform.data.payloads.request.*;
+import com.iuc.cerrahpasa.onlineexamplatform.data.payloads.response.EyeTrackingResponse;
 import com.iuc.cerrahpasa.onlineexamplatform.service.*;
+import com.iuc.cerrahpasa.onlineexamplatform.util.EyeTrackerUtil;
 import org.apache.commons.io.FileUtils;
 import com.iuc.cerrahpasa.onlineexamplatform.data.model.Course;
 import com.iuc.cerrahpasa.onlineexamplatform.data.model.Take;
@@ -31,7 +34,7 @@ import java.util.Arrays;
 import java.util.List;
 
 @RestController
-@CrossOrigin(origins = "http://localhost:3000")
+@CrossOrigin(origins = {"http://localhost:3000"})
 @RequestMapping("/student")
 public class StudentController {
 
@@ -58,6 +61,9 @@ public class StudentController {
 
 	@Value("${python.file.path.face.identification}")
 	String fileFaceIdentificationPath;
+
+	@Value("${python.file.path.eye.tracking}")
+	String fileEyeTrackingPath;
 
 	@Value("${percantange.thresh.hold}")
 	Double percantageThresHold;
@@ -122,6 +128,32 @@ public class StudentController {
 		return ResponseEntity.ok(FaceIdentificationResponse.builder().isThisTruePerson(isThisTruePerson).build());
 	}
 
+	@PostMapping("/eyeTracking")
+	public ResponseEntity<EyeTrackingResponse> followEyeMotion(@RequestParam("images") MultipartFile[] files){
+		uploadEyes(files);
+		Boolean isCheating = executeEyeTracking(files[0].getOriginalFilename());
+		deleteEyes(files[0].getOriginalFilename());
+		return ResponseEntity.ok(EyeTrackingResponse.builder().isCheating(isCheating).build());
+	}
+
+	private void uploadEyes(MultipartFile[] files){
+		for(MultipartFile file : files){
+			try {
+				// Set the directory where the image will be saved
+				Path rootLocation = Paths.get( fileNamePython,"eyes", file.getOriginalFilename());
+				if (Files.notExists(rootLocation)) {
+					Files.createDirectories(rootLocation);
+				}
+				// Save the image
+				Path destinationFile = rootLocation.resolve(LocalDateTime.now().toString() + ".jpeg");
+				Files.copy(file.getInputStream(), destinationFile);
+
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
+	}
+
 	private void uploadImages(MultipartFile[] files){
 		for(MultipartFile file : files){
 			try {
@@ -140,6 +172,33 @@ public class StudentController {
 		}
 	}
 
+	private Boolean executeEyeTracking(String folderId){
+		List<Boolean> isEyeSlipped = new ArrayList<>();
+		try {
+			String[] command = {pythonCommand, fileEyeTrackingPath, folderId};
+			ProcessBuilder processBuilder = new ProcessBuilder(command);
+			Process process = processBuilder.start();
+
+			try (BufferedReader reader = new BufferedReader(new InputStreamReader(process.getInputStream()))) {
+				String line;
+				while ((line = reader.readLine()) != null) {
+					Character returnType = line.charAt(0);
+					if(returnType.equals('c') || returnType.equals('C')){
+						isEyeSlipped.add(Boolean.TRUE);
+					} else{
+						isEyeSlipped.add(Boolean.FALSE);
+					}
+				}
+			}
+			int exitCode = process.waitFor();
+			if (exitCode != 0) {
+				System.out.println("Python script execution failed with exit code: " + exitCode);
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return isEyeSlipped.stream().allMatch(t -> t.equals(Boolean.TRUE));
+	}
 	private  Long executeFaceIdentification(String folderId){//return true count.
 		List<Boolean> identityList = new ArrayList<>();
 		try {
@@ -168,6 +227,15 @@ public class StudentController {
 		return identityList.stream().filter(t -> t.equals(Boolean.TRUE)).count();
 	}
 
+	private void deleteEyes(String folderName){
+		Path rootLocation = Paths.get( fileNamePython,"eyes", folderName);
+		File imagesDirectory = new File(rootLocation.toString());
+		try{
+			FileUtils.cleanDirectory(imagesDirectory);
+		} catch (Exception e){
+
+		}
+	}
 	private void deleteImages(String folderName){
 		Path rootLocation = Paths.get( fileNamePython,"uploads", folderName);
 		File imagesDirectory = new File(rootLocation.toString());

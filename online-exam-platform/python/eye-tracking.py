@@ -41,7 +41,7 @@ def contouring(thresh, mid, img, right=False):
 
 def compare_eyeballs(y_left, x_left, y_right, x_right, y_center, x_center, img):
     try:
-        diff_x = abs(x_left - x_right) / 3.9
+        diff_x = abs(x_left - x_right) / 3.5
         if x_center - diff_x <= x_left:
             return True
         elif x_center + diff_x >= x_right:
@@ -54,7 +54,7 @@ def compare_eyeballs(y_left, x_left, y_right, x_right, y_center, x_center, img):
 
 ABS_PATH = os.path.abspath(__file__)
 DIR_PATH = os.path.dirname(ABS_PATH)
-IMGS_PATH = os.path.join(DIR_PATH, 'eyes', args.IMAGE_FOLDER) 
+IMGS_PATH = os.path.join(DIR_PATH, 'eyes', args.IMAGE_FOLDER)
 
 face_detector = dlib.get_frontal_face_detector()
 predictor = dlib.shape_predictor(os.path.join('python', 'src', 'models', 'shape_68.dat'))
@@ -107,8 +107,8 @@ for root, dirs, files in os.walk(IMGS_PATH):
             eyeRight = contouring(thresh[:, mid:], mid, img_frame, True)
             try:
                 if (compare_eyeballs(face_objects[36][1], face_objects[36][0], face_objects[39][1], face_objects[39][0], eyeLeft[0], eyeLeft[1],
-                img_frame) or compare_eyeballs(face_objects[42][1], face_objects[42][0], face_objects[45][1], face_objects[45][0], eyeRight[0], eyeRight[1],
-                                img_frame)):
+                                     img_frame) or compare_eyeballs(face_objects[42][1], face_objects[42][0], face_objects[45][1], face_objects[45][0], eyeRight[0], eyeRight[1],
+                                                                    img_frame)):
                     print("CHEATING")
                 else:
                     print("NOT-CHEATING")
