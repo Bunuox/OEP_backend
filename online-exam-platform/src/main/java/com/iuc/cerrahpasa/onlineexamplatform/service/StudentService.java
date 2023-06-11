@@ -11,4 +11,6 @@ public interface StudentService {
 	Boolean createStudent(StudentCreationRequest studentRequest);
 
 	Student findStudent(StudentFindRequest studentFindRequest);
+
+	Student findStudentByStudentId(StudentFindRequest studentFindRequest);
 }

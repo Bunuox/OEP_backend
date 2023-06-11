@@ -37,4 +37,9 @@ public class TakeServiceImpl implements TakeService {
     public Take[] findTake(TakeFindRequest takeFindRequest) {
         return takeRepository.findAllByStudentId(takeFindRequest.getStudentId());
     }
+
+    @Override
+    public Take[] findTakeByCourseId(TakeFindRequest takeFindRequest){
+        return takeRepository.findAllByCourseId(takeFindRequest.getCourseId());
+    }
 }

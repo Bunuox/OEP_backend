@@ -2,12 +2,15 @@ package com.iuc.cerrahpasa.onlineexamplatform.service.impl;
 
 import com.iuc.cerrahpasa.onlineexamplatform.data.model.StudentAnswers;
 import com.iuc.cerrahpasa.onlineexamplatform.data.payloads.request.StudentAnswerCreationRequest;
+import com.iuc.cerrahpasa.onlineexamplatform.data.payloads.request.StudentAnswersFindRequest;
 import com.iuc.cerrahpasa.onlineexamplatform.repository.StudentAnswersRepository;
 import com.iuc.cerrahpasa.onlineexamplatform.service.StudentAnswersService;
 import jakarta.transaction.Transactional;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.ArrayList;
 
 @Service
 @Slf4j
@@ -42,5 +45,14 @@ public class StudentAnswersServiceImpl implements StudentAnswersService {
                 log.info("Student answer could not created due to:" + e.getLocalizedMessage());
             }
         }
+    }
+
+    @Override
+    public ArrayList<StudentAnswers> findStudentAnswers(StudentAnswersFindRequest studentAnswersFindRequest) {
+        ArrayList<StudentAnswers> studentAnswers = new ArrayList<>();
+        for(Long questionId: studentAnswersFindRequest.getQuestionsId()){
+            studentAnswers.add(studentAnswersRepository.findByStudentIdAndQuestionId(studentAnswersFindRequest.getStudentId(), questionId));
+        }
+        return studentAnswers;
     }
 }

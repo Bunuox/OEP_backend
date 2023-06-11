@@ -10,4 +10,6 @@ public interface TakeService {
     Boolean createTake(TakeCreationRequest takeCreationRequest);
 
     Take[] findTake(TakeFindRequest takeFindRequest);
+
+    Take[] findTakeByCourseId(TakeFindRequest takeFindRequest);
 }

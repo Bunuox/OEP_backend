@@ -21,18 +21,18 @@ public class StudentServiceImpl implements StudentService{
 	@Override
 	public Boolean createStudent(StudentCreationRequest studentRequest) {
 		Student student = Student.builder().identificationNo(studentRequest.getIdentificationNo())
-										   .firstName(studentRequest.getFirstName())
-										   .lastName(studentRequest.getLastName())
-										   .email(studentRequest.getEmail())
-										   .gender(studentRequest.getGender())
-										   .dateOfBirth(studentRequest.getDateOfBirth())
-										   .isActive(Boolean.FALSE)
-										   .password(generateRandomPassword())
-										   .build();
+				.firstName(studentRequest.getFirstName())
+				.lastName(studentRequest.getLastName())
+				.email(studentRequest.getEmail())
+				.gender(studentRequest.getGender())
+				.dateOfBirth(studentRequest.getDateOfBirth())
+				.isActive(Boolean.FALSE)
+				.password(generateRandomPassword())
+				.build();
 		try {
 			studentRepository.save(student);
 			log.info("Student record has been generated.");
-			
+
 		} catch(Exception e) {
 			log.info("Student record has not been generated.");
 			return Boolean.FALSE;
@@ -46,7 +46,12 @@ public class StudentServiceImpl implements StudentService{
 
 	@Override
 	public Student findStudent(StudentFindRequest studentFindRequest) {
-		
+
 		return studentRepository.findByEmail(studentFindRequest.getEmail());
+	}
+
+	@Override
+	public Student findStudentByStudentId(StudentFindRequest studentFindRequest){
+		return studentRepository.findByStudentId(studentFindRequest.getStudentId());
 	}
 }

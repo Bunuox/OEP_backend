@@ -7,8 +7,7 @@ import javax.validation.constraints.NotNull;
 
 @Data
 public class TakeFindRequest {
-
-    @NotNull
-    @NotBlank
     private Long studentId;
+
+    private Long courseId;
 }
