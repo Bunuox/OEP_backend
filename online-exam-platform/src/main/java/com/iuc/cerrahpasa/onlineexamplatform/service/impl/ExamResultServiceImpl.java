@@ -2,11 +2,14 @@ package com.iuc.cerrahpasa.onlineexamplatform.service.impl;
 
 import com.iuc.cerrahpasa.onlineexamplatform.data.model.ExamResults;
 import com.iuc.cerrahpasa.onlineexamplatform.data.payloads.request.ExamResultCreationRequest;
+import com.iuc.cerrahpasa.onlineexamplatform.data.payloads.request.ExamResultsFindRequest;
 import com.iuc.cerrahpasa.onlineexamplatform.repository.ExamResultRepository;
 import com.iuc.cerrahpasa.onlineexamplatform.service.ExamResultService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.ArrayList;
 
 @Slf4j
 @Service
@@ -32,5 +35,20 @@ public class ExamResultServiceImpl implements ExamResultService {
         }
 
         return Boolean.TRUE;
+    }
+
+    @Override
+    public ArrayList<ExamResults> findStudentResultByExamId(ExamResultsFindRequest examResultsFindRequest) {
+        ArrayList<ExamResults> examResults = new ArrayList<>();
+        for(Long examId: examResultsFindRequest.getExamsId()){
+            examResults.add(examResultRepository.findExamResultByExamIdAndStudentId(examId, examResultsFindRequest.getStudentId()));
+        }
+
+        return examResults;
+    }
+
+    @Override
+    public ExamResults[] findExamResultsByExamId(ExamResultsFindRequest examResultsFindRequest) {
+        return examResultRepository.findExamResultsByExamId(examResultsFindRequest.getExamId());
     }
 }
